@@ -15,7 +15,7 @@ process.chdir('test');
 		tap.assert.equal(res._body, 'about\n', 'Should parse the data.');
 	});
 
-	routes['/about'](null, {}, res);
+	routes['/about']({}, res);
 })();
 
 
@@ -25,7 +25,7 @@ process.chdir('test');
 		tap.assert.equal(res2._body, 'take_two\n', 'Should get file with two slashes.');
 	});
 
-	routes['/take/two'](null, {}, res2);
+	routes['/take/two']({}, res2);
 })();
 
 
