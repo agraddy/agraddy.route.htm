@@ -5,6 +5,7 @@ var htm = require('../');
 var routes = {};
 var res = response();
 var res2 = response();
+var res3 = response();
 
 process.chdir('test');
 
@@ -26,6 +27,23 @@ process.chdir('test');
 	});
 
 	routes['/take/two']({}, res2);
+})();
+
+
+(function() {
+	function header(req, res, lug, cb) {
+		res.setHeader('X-Test', 'test');
+		cb();
+	}
+
+	htm(routes, '/add/header/here', [header]);
+
+	res3.on('finish', function() {
+		tap.assert.deepEqual(res3._headers[0], {"X-Test": "test"}, 'Should get header from luggage plugin.');
+		tap.assert.equal(res3._body, 'add_header_here\n', 'Should get file with three slashes.');
+	});
+
+	routes['/add/header/here']({}, res3);
 })();
 
 
