@@ -6,6 +6,7 @@ var routes = {};
 var res = response();
 var res2 = response();
 var res3 = response();
+var res4 = response();
 
 process.chdir('test');
 
@@ -44,6 +45,15 @@ process.chdir('test');
 	});
 
 	routes['/add/header/here']({}, res3);
+})();
+
+(function() {
+	htm(routes, '^/handle/regex(/\\d+)$');
+	res4.on('finish', function() {
+		tap.assert.equal(res4._body, 'handle_regex\n', 'Should handle regex - end at the first parenthesis.');
+	});
+
+	routes['^/handle/regex(/\\d+)$']({url: '/handle/regex/3'}, res4);
 })();
 
 
